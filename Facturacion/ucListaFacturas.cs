@@ -1,5 +1,6 @@
 ﻿using CapaDeNegocio;
 using DevExpress.XtraEditors;
+using DevExpress.XtraReports.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,6 +39,22 @@ namespace Facturacion
 
             gridControl1.DataSource = facturaDAL.GetFacturaEnc();
         }
-        
+        private int SelectedRow()
+        {
+            DataRow row = gridView1.GetDataRow(gridView1.GetSelectedRows()[0]);
+
+            return (int)row.ItemArray[0];
+        }
+        private void simpleButton1_Click(object sender, EventArgs e)
+        {
+            Report1 reporte = new Report1();
+
+            reporte.Parameters["IDFacturaEnc"].Value = SelectedRow();
+            reporte.Parameters["IDFacturaEnc"].Visible = false;
+            
+
+            ReportPrintTool printTool = new ReportPrintTool(reporte);
+            printTool.ShowPreview();
+        }
     }
 }
