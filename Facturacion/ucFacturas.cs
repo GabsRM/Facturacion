@@ -168,8 +168,9 @@ namespace Facturacion
             int ultimaFac = facturaDAL.ObtenerUltimaFacturaPorCliente(factura.IDCliente);
             
 
-            //Detalle factura
-            // Recorrer cada fila del gridData para extraer el IdProducto y otros detalles
+            // Detalle factura
+            // Recorre cada fila del gridData para extraer el IdProducto y otros detalles
+
             if (gridData != null)
             {
                 foreach (DataRow row in gridData.Rows)
@@ -185,12 +186,18 @@ namespace Facturacion
                         Descuento = factura.IDDescuento,
                         IVA = Convert.ToDecimal(row["IVA"]),
                         Total = (Convert.ToDecimal(row["Sub Total"]) - ((factura.IDDescuento / 100) * Convert.ToDecimal(row["Sub Total"])) + Convert.ToDecimal(row["IVA"]))
+                        
                     };
+                    int IDProducto = Convert.ToInt32(row["IDProducto"].ToString());
+                    decimal Existencias = Convert.ToDecimal(row["Existencias"].ToString());
+                    productosDAL.UpdateProductExistences(IDProducto, Existencias);
                     // Agregar el detalle de la factura a la lista
                     //detallesFactura.Add(detalleFactura);
                     facturaDetalleDAL.InsertFacturaDetalle(detalleFactura);
                 }
             }
+
+
 
             MessageBox.Show("Se guardó la factura");
 
@@ -216,15 +223,13 @@ namespace Facturacion
 
         private void AgregarProducto()
         {
-            if (txtProducto.Text != null)
+            if (txtProducto.Text != "")
             {
-                
                 int idProducto = Convert.ToInt32(txtProducto.Text);
 
                 // Obtener el DataTable actual del GridControl
                 DataTable newProduct = productosDAL.GetProductoInfoById(idProducto);
                 DataTable gridData = gdProductos.DataSource as DataTable;
-
 
                 // Si el grid está vacío, inicializamos el DataSource con el nuevo DataTable
                 if (gridData == null)
@@ -235,16 +240,17 @@ namespace Facturacion
                     gridData.Columns.Add("Sub Total", typeof(decimal));
                     gridData.Columns.Add("IVA", typeof(decimal));
 
-
-
                     // Agregar las filas del nuevo producto con el valor de txtCantidad y el precio seleccionado
                     foreach (DataRow row in newProduct.Rows)
                     {
                         DataRow newRow = gridData.NewRow();
                         newRow.ItemArray = row.ItemArray.Clone() as object[]; // Copiar datos de la fila original
                         newRow["Cantidad"] = int.Parse(txtCantidad.Text); // Asigna el valor de txtCantidad
-                        newRow["Sub Total"] = Convert.ToDecimal(newProduct.Rows[0]["PrecioVenta"]) * decimal.Parse(txtCantidad.Text); // Asigna el precio seleccionado
-                        newRow["IVA"] = CalcularIVA(decimal.Parse(newProduct.Rows[0]["PrecioVenta"].ToString()));
+                        newRow["Sub Total"] = Convert.ToDecimal(newProduct.Rows[0]["PrecioVenta"]) * decimal.Parse(txtCantidad.Text); // Calcula el subtotal
+                        newRow["IVA"] = CalcularIVA(Convert.ToDecimal(newProduct.Rows[0]["PrecioVenta"])); // Calcula el IVA
+
+                        // Actualizar la columna "Existencias" en la fila original
+                        newRow["Existencias"] = Convert.ToDecimal(row["Existencias"]) - Convert.ToDecimal(txtCantidad.Text);
 
                         gridData.Rows.Add(newRow);
                     }
@@ -266,32 +272,50 @@ namespace Facturacion
                     {
                         gridData.Columns.Add("IVA", typeof(decimal));
                     }
+
                     // Agregar cada fila del nuevo producto al DataTable actual con el valor de txtCantidad y el precio seleccionado
                     foreach (DataRow row in newProduct.Rows)
                     {
-                        DataRow newRow = gridData.NewRow();
-                        newRow.ItemArray = row.ItemArray.Clone() as object[]; // Copiar datos de la fila original
-                        newRow["Cantidad"] = int.Parse(txtCantidad.Text); // Asigna el valor de txtCantidad
-                        newRow["Sub Total"] = Convert.ToDecimal(newProduct.Rows[0]["PrecioVenta"]) * decimal.Parse(txtCantidad.Text); // Asigna el precio seleccionado
-                        newRow["IVA"] = CalcularIVA(decimal.Parse(newProduct.Rows[0]["PrecioVenta"].ToString()));
+                        DataRow existingRow = gridData.AsEnumerable()
+                            .FirstOrDefault(r => Convert.ToInt32(r["IDProducto"]) == idProducto);
 
-                        gridData.Rows.Add(newRow);
+                        if (existingRow != null)
+                        {
+                            // Si el producto ya existe en el grid, actualiza la cantidad, el subtotal y las existencias
+                            existingRow["Cantidad"] = Convert.ToInt32(existingRow["Cantidad"]) + Convert.ToInt32(txtCantidad.Text);
+                            existingRow["Sub Total"] = Convert.ToDecimal(existingRow["Cantidad"]) * Convert.ToDecimal(newProduct.Rows[0]["PrecioVenta"]);
+                            existingRow["IVA"] = CalcularIVA(Convert.ToDecimal(existingRow["Sub Total"]));
+                            existingRow["Existencias"] = Convert.ToDecimal(row["Existencias"]) - Convert.ToDecimal(txtCantidad.Text);
+                        }
+                        else
+                        {
+                            // Agrega un nuevo producto si no existe en el grid
+                            DataRow newRow = gridData.NewRow();
+                            newRow.ItemArray = row.ItemArray.Clone() as object[]; // Copiar datos de la fila original
+                            newRow["Cantidad"] = int.Parse(txtCantidad.Text); // Asigna el valor de txtCantidad
+                            newRow["Sub Total"] = Convert.ToDecimal(newProduct.Rows[0]["PrecioVenta"]) * decimal.Parse(txtCantidad.Text); // Calcula el subtotal
+                            newRow["IVA"] = CalcularIVA(Convert.ToDecimal(newProduct.Rows[0]["PrecioVenta"])); // Calcula el IVA
+                            newRow["Existencias"] = Convert.ToDecimal(row["Existencias"]) - Convert.ToDecimal(txtCantidad.Text); // Resta la cantidad a las existencias
+
+                            gridData.Rows.Add(newRow);
+                        }
                     }
 
                     // Actualizar el DataSource del grid con el DataTable actualizado
                     gdProductos.DataSource = gridData;
                 }
+
+                // Actualizar los totales en la interfaz
                 txtIVA.Text = gridData.AsEnumerable().Sum(row => row.Field<decimal>("IVA")).ToString();
                 txtSubtotal.Text = gridData.AsEnumerable().Sum(row => row.Field<decimal>("Sub Total")).ToString();
                 CalcularTotal();
-
             }
             else
             {
                 MessageBox.Show("No se seleccionó un producto válido.");
             }
         }
-        
+
         private void btnAgregar_Click(object sender, EventArgs e)
         {
 
@@ -365,6 +389,11 @@ namespace Facturacion
                 CalcularTotal();
                 
             }
+
+        }
+
+        private void txtProducto_EditValueChanged(object sender, EventArgs e)
+        {
 
         }
     }

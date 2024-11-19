@@ -364,6 +364,7 @@ namespace Facturacion
             this.txtProducto.Size = new System.Drawing.Size(590, 42);
             this.txtProducto.StyleController = this.layoutControl1;
             this.txtProducto.TabIndex = 28;
+            this.txtProducto.EditValueChanged += new System.EventHandler(this.txtProducto_EditValueChanged);
             this.txtProducto.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtProducto_KeyDown);
             // 
             // txtCantidad

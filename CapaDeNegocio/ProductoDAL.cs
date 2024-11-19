@@ -127,7 +127,37 @@ namespace CapaDeNegocio
             }
             return flag;
         }
+        public bool UpdateProductExistences(int IDProducto, decimal Existences)
+        {
+            bool flag;
+            try
+            {
+                cmd.CommandText = "UpdateProductExistences";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
 
+                cmd.Parameters.AddWithValue("@IDProducto", IDProducto);
+                cmd.Parameters.AddWithValue("@Existencias", Existences);
+
+                cmd.Connection = cnn.Open();
+
+                cmd.ExecuteNonQuery();
+                cmd.Parameters.Clear();
+                flag = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (cmd.Connection != null && cmd.Connection.State == ConnectionState.Open)
+                {
+                    cmd.Connection.Close();
+                }
+            }
+            return flag;
+        }
         // Método para eliminar un producto
         public bool DeleteProducto(int idProducto)
         {
