@@ -97,6 +97,7 @@ namespace Facturacion
             this.accordionControlElement6.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
             this.accordionControlElement6.Text = "Productos";
             this.accordionControlElement6.Click += new System.EventHandler(this.accordionControlElement6_Click);
+            this.accordionControlElement6.VisibleChanged += new System.EventHandler(this.accordionControlElement6_VisibleChanged);
             // 
             // accordionControlElement7
             // 
@@ -167,7 +168,6 @@ namespace Facturacion
             this.Controls.Add(this.accordionControl1);
             this.Controls.Add(this.fluentDesignFormControl1);
             this.FluentDesignFormControl = this.fluentDesignFormControl1;
-            this.Font = new System.Drawing.Font("Tahoma", 12F);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "frmMain";
             this.NavigationControl = this.accordionControl1;

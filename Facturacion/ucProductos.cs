@@ -18,6 +18,9 @@ namespace Facturacion
         private ProductoDAL productosDAL = new ProductoDAL();
         private clsProducto producto= new clsProducto();
 
+        private ucFacturas facturasControl;
+
+
         private void FillData()
         {
             ProveedorDAL proveedoresDAL = new ProveedorDAL();
@@ -83,13 +86,18 @@ namespace Facturacion
         public ucProductos()
         {
             InitializeComponent();
-            ShowData();
             FillData();
+            ShowData();
+
         }
 
-        private void ShowData()
+        
+        public void ShowData()
         {
-            gridControl1.DataSource = productosDAL.GetProductos();
+            gridControl1.DataSource = null; 
+            gridControl1.DataSource = productosDAL.GetProductos(); 
+            gridControl1.RefreshDataSource();
+
         }
         private int selectedRow()
         {

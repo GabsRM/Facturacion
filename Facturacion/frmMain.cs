@@ -15,6 +15,7 @@ namespace Facturacion
         public frmMain()
         {
             InitializeComponent();
+            ucFacturas.Instance.ProductosActualizados += ucProductos.Instance.ShowData;
         }
 
         private void accordionControlElement2_Click(object sender, EventArgs e)
@@ -53,6 +54,7 @@ namespace Facturacion
 
         private void accordionControlElement6_Click(object sender, EventArgs e)
         {
+            
             if (!container.Controls.Contains(ucProductos.Instance))
             {
                 container.Controls.Add(ucProductos.Instance);
@@ -85,6 +87,11 @@ namespace Facturacion
 
             }
             ucListaFacturas.Instance.BringToFront();
+        }
+
+        private void accordionControlElement6_VisibleChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }

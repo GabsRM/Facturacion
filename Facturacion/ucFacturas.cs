@@ -133,6 +133,15 @@ namespace Facturacion
 
         }
 
+        private void Clear()
+        {
+            txtProducto.EditValue = null;
+            txtCantidad.EditValue = 1;
+            gdProductos.DataSource = null;
+
+        }
+
+        public event Action ProductosActualizados;
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             if (gdProductos.DataSource == null)
@@ -197,11 +206,11 @@ namespace Facturacion
                 }
             }
 
-
+            ProductosActualizados?.Invoke();
 
             MessageBox.Show("Se guardó la factura");
 
-            
+            Clear();
 
          
 
