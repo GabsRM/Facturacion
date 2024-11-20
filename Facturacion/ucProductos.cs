@@ -1,14 +1,7 @@
 ﻿using CapaDeEntidad;
 using CapaDeNegocio;
-using DevExpress.XtraEditors;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Facturacion
@@ -18,7 +11,7 @@ namespace Facturacion
         private ProductoDAL productosDAL = new ProductoDAL();
         private clsProducto producto= new clsProducto();
 
-        private ucFacturas facturasControl;
+        private bool btnNuevoIsClicked = true;
 
 
         private void FillData()
@@ -88,15 +81,16 @@ namespace Facturacion
             InitializeComponent();
             FillData();
             ShowData();
+           
 
         }
 
         
         public void ShowData()
         {
-            gridControl1.DataSource = null; 
-            gridControl1.DataSource = productosDAL.GetProductos(); 
-            gridControl1.RefreshDataSource();
+            gdProductos.DataSource = null; 
+            gdProductos.DataSource = productosDAL.GetProductos(); 
+            gdProductos.RefreshDataSource();
 
         }
         private int selectedRow()
@@ -122,49 +116,48 @@ namespace Facturacion
 
         }
 
-
-
-
-
         private void btnGuardar_Click(object sender, EventArgs e)
         {
+            if(!btnNuevoIsClicked)
+            {
+                producto.Nombre = txtNombre.Text;
+                producto.IDGrupo = int.Parse(cbGrupo.EditValue.ToString());
+                producto.IDMarca = int.Parse(cbMarca.EditValue.ToString());
+                producto.PrecioCompra = decimal.Parse(txtPrecioCompra.Text);
+                producto.PrecioVenta = decimal.Parse(txtPrecioVenta.Text);
+                producto.Costo = decimal.Parse(txtCosto.Text);
+                producto.CodigoBarra = txtCodBarra.Text;
+                producto.Referencia = txtReferencia.Text;
+                producto.IDProveedor = int.Parse(cbProveedores.EditValue.ToString());
+                producto.Existencias = decimal.Parse(txtCantidad.Text);
+                if (productosDAL.InsertProducto(producto))
+                    MessageBox.Show("Se guardó el producto!");
+            }
+            else
+            {
 
-            producto.Nombre = txtNombre.Text;
-            producto.IDGrupo = int.Parse(cbGrupo.EditValue.ToString());
-            producto.IDMarca = int.Parse(cbMarca.EditValue.ToString());
-            producto.PrecioCompra = decimal.Parse(txtPrecioCompra.Text);
-            producto.PrecioVenta = decimal.Parse(txtPrecioVenta.Text);
-            producto.Costo = decimal.Parse(txtCosto.Text);
-            producto.CodigoBarra = txtCodBarra.Text;
-            producto.Referencia = txtReferencia.Text;
-            producto.IDProveedor = int.Parse(cbProveedores.EditValue.ToString());
-            producto.Existencias = decimal.Parse(txtCantidad.Text);
-            if (productosDAL.InsertProducto(producto))
-                MessageBox.Show("Se guardó el producto!");
+              
+                producto.IDProducto = selectedRow();
+                producto.Nombre = txtNombre.Text;
+                producto.IDGrupo = int.Parse(cbGrupo.EditValue.ToString());
+                producto.IDMarca = int.Parse(cbMarca.EditValue.ToString());
+                producto.PrecioCompra = decimal.Parse(txtPrecioCompra.Text);
+                producto.PrecioVenta = decimal.Parse(txtPrecioVenta.Text);
+                producto.Costo = decimal.Parse(txtCosto.Text);
+                producto.CodigoBarra = txtCodBarra.Text;
+                producto.Referencia = txtReferencia.Text;
+                producto.IDProveedor = int.Parse(cbProveedores.EditValue.ToString());
+                producto.Existencias = decimal.Parse(txtCantidad.Text);
+                if (productosDAL.UpdateProducto(producto))
+                    MessageBox.Show("Se actualizó el producto!");
+
+            }
             ShowData();
-            
+            ResetNewButton();
 
         }
 
-        private void btnActualizar_Click(object sender, EventArgs e)
-        {
-            producto.IDProducto = selectedRow();
-            producto.Nombre = txtNombre.Text;
-            producto.IDGrupo = int.Parse(cbGrupo.EditValue.ToString());
-            producto.IDMarca = int.Parse(cbMarca.EditValue.ToString());
-            producto.PrecioCompra = decimal.Parse(txtPrecioCompra.Text);
-            producto.PrecioVenta = decimal.Parse(txtPrecioVenta.Text);
-            producto.Costo = decimal.Parse(txtCosto.Text);
-            producto.CodigoBarra = txtCodBarra.Text;
-            producto.Referencia = txtReferencia.Text;
-            producto.IDProveedor = int.Parse(cbProveedores.EditValue.ToString());
-            producto.Existencias = decimal.Parse(txtCantidad.Text);
-            if (productosDAL.UpdateProducto(producto))
-                MessageBox.Show("Se actualizó el producto!");
-            ShowData();
-            
-            
-        }
+       
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
@@ -177,6 +170,30 @@ namespace Facturacion
         private void cbProveedores_Click(object sender, EventArgs e)
         {
 
+        }
+        private void btnNuevo_Click(object sender, EventArgs e)
+        {
+
+            if (btnNuevoIsClicked)
+            {
+                btnNuevoIsClicked = false;
+                gdProductos.Enabled = false;
+                btnNuevo.Text = "Cancelar";
+                btnNuevo.ImageOptions.SvgImage = Properties.Resources.cancel;
+            }
+            else
+            {
+                ResetNewButton();
+            }
+
+        }
+
+        private void ResetNewButton()
+        {
+            btnNuevoIsClicked = true;
+            gdProductos.Enabled = true;
+            btnNuevo.Text = "Nuevo";
+            btnNuevo.ImageOptions.SvgImage = Properties.Resources.newproduct;
         }
     }
 }
