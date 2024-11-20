@@ -16,17 +16,28 @@ namespace CapaDeNegocio
         SqlCommand cmd = new SqlCommand();
 
         // Método para obtener todos los descuentos
-        public DataTable GetDescuento()
+        public List<clsDescuento> GetDescuento()
         {
-            SqlDataReader read;
-            DataTable dt = new DataTable();
+            List<clsDescuento> dt = new List<clsDescuento>();
             cmd.Parameters.Clear();
             cmd.Connection = cnn.Open();
             cmd.CommandText = "GetDescuento";
             cmd.CommandType = CommandType.StoredProcedure;
 
-            read = cmd.ExecuteReader();
-            dt.Load(read);
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+
+                while (reader.Read())
+                {
+
+                    clsDescuento descuento = new clsDescuento
+                    {
+                        IDDescuento = reader.GetInt32(0),
+                        Descuento = reader.IsDBNull(1) ? null : reader.GetString(1)
+                    };
+                    dt.Add(descuento);
+                }
+            }
             cnn.Close();
             return dt;
         }

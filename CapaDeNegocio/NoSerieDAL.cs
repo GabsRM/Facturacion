@@ -16,13 +16,13 @@ namespace CapaDeNegocio
         SqlCommand cmd = new SqlCommand();
 
         // Método para obtener todos los números de serie
-        public DataTable GetNoSerie(string storeProcedure)
+        public DataTable GetNoSerie()
         {
             SqlDataReader read;
             DataTable dt = new DataTable();
             cmd.Parameters.Clear();
             cmd.Connection = cnn.Open();
-            cmd.CommandText = storeProcedure;
+            cmd.CommandText = "GetLastNSerie";
             cmd.CommandType = CommandType.StoredProcedure;
 
             read = cmd.ExecuteReader();

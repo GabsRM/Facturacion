@@ -237,11 +237,10 @@ namespace Facturacion
             this.cbDescuento.Name = "cbDescuento";
             this.cbDescuento.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cbDescuento.Properties.EditValueChanged += new System.EventHandler(this.cbDescuento_Properties_EditValueChanged);
             this.cbDescuento.Size = new System.Drawing.Size(141, 42);
             this.cbDescuento.StyleController = this.layoutControl1;
             this.cbDescuento.TabIndex = 20;
-            this.cbDescuento.EditValueChanged += new System.EventHandler(this.cbDescuento_EditValueChanged);
+            this.cbDescuento.CloseUp += new DevExpress.XtraEditors.Controls.CloseUpEventHandler(this.cbDescuento_CloseUp);
             // 
             // txtIVA
             // 
@@ -352,8 +351,6 @@ namespace Facturacion
             this.cbCliente.Size = new System.Drawing.Size(590, 42);
             this.cbCliente.StyleController = this.layoutControl1;
             this.cbCliente.TabIndex = 4;
-            this.cbCliente.EditValueChanged += new System.EventHandler(this.cbCliente_EditValueChanged);
-            this.cbCliente.Click += new System.EventHandler(this.cbCliente_Click);
             // 
             // txtProducto
             // 
@@ -364,7 +361,6 @@ namespace Facturacion
             this.txtProducto.Size = new System.Drawing.Size(590, 42);
             this.txtProducto.StyleController = this.layoutControl1;
             this.txtProducto.TabIndex = 28;
-            this.txtProducto.EditValueChanged += new System.EventHandler(this.txtProducto_EditValueChanged);
             this.txtProducto.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtProducto_KeyDown);
             // 
             // txtCantidad
@@ -384,7 +380,6 @@ namespace Facturacion
             this.txtCantidad.Size = new System.Drawing.Size(368, 42);
             this.txtCantidad.StyleController = this.layoutControl1;
             this.txtCantidad.TabIndex = 6;
-            this.txtCantidad.EditValueChanged += new System.EventHandler(this.txtCantidad_EditValueChanged);
             this.txtCantidad.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCantidad_KeyDown);
             // 
             // Root

@@ -15,13 +15,12 @@ namespace Facturacion
 {
     public partial class ucFacturas : DevExpress.XtraEditors.XtraUserControl
     {
-        /*clsNegocio negocio = new clsNegocio();*/
+        
         private static ucFacturas _instance;
 
         FacturaEncDAL facturaEnDAL = new FacturaEncDAL();
         ProductoDAL productosDAL = new ProductoDAL();
         clsFacturaEnc factura = new clsFacturaEnc();
-        //DataTable productos;
 
         NoSerieDAL noSerieDAL = new NoSerieDAL();
         DataTable noSerie;
@@ -46,8 +45,29 @@ namespace Facturacion
             }
         }
 
+        DescuentoDAL descuentoDAL = new DescuentoDAL();
+        List<clsDescuento> descuentos = new List<clsDescuento>();
 
+        private bool fillCBDescuentoIstrue = true;
 
+        private void FillCbDescuento()
+        {
+            fillCBDescuentoIstrue = false;
+            foreach (var item in descuentoDAL.GetDescuento())
+            {
+                descuentos.Add(item);
+            }
+
+            descuentos.Remove(descuentos.FirstOrDefault(x => x.IDDescuento == 0));
+
+            cbDescuento.Properties.DataSource = descuentos;
+
+            cbDescuento.Properties.DisplayMember = "Descuento";
+            cbDescuento.Properties.ValueMember = "IDDescuento";
+
+            cbDescuento.Properties.Columns.Add(new DevExpress.XtraEditors.Controls.LookUpColumnInfo("IDDescuento", "Cod Descuento"));
+            cbDescuento.Properties.Columns.Add(new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Descuento", "Descuento"));
+        }
 
         private void FillData()
         {
@@ -56,7 +76,7 @@ namespace Facturacion
 
            
 
-            noSerie = noSerieDAL.GetNoSerie("GetLastNSerie");
+            noSerie = noSerieDAL.GetNoSerie();
 
             txtSerie.Text = noSerie.Rows[0]["NumeroSerie"].ToString();
 
@@ -89,20 +109,6 @@ namespace Facturacion
             cbCliente.Properties.Columns.Add(new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Nombre", "Nombre"));
             cbCliente.DataBindings.Add("EditValue", clientes, "IDCliente", true, DataSourceUpdateMode.OnPropertyChanged);
 
-            DescuentoDAL descuentoDAL = new DescuentoDAL();
-            DataTable descuentos;
-            descuentos = descuentoDAL.GetDescuento();
-
-            cbDescuento.Properties.DataSource = descuentos;
-
-            cbDescuento.Properties.DisplayMember = "Descuento";
-            cbDescuento.Properties.ValueMember = "IDDescuento";
-
-            cbDescuento.Properties.Columns.Add(new DevExpress.XtraEditors.Controls.LookUpColumnInfo("IDDescuento", "Cod Descuento"));
-            cbDescuento.Properties.Columns.Add(new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Descuento", "Descuento"));
-            cbDescuento.DataBindings.Add("EditValue", descuentos, "IDDescuento", true, DataSourceUpdateMode.OnPropertyChanged);
-
-            
             moneda = monedaDAL.GetMoneda();
 
             cbMoneda.Properties.DataSource = moneda;
@@ -114,23 +120,16 @@ namespace Facturacion
 
             cbMoneda.DataBindings.Add("EditValue", moneda, "IDMoneda", true, DataSourceUpdateMode.OnPropertyChanged);
 
+                cbDescuento.Properties.NullText = "No Aplica";
+           
+
         }
 
         public ucFacturas()
         {
             InitializeComponent();
             FillData();
-
-        }
-
-        private void cbCliente_EditValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cbCliente_Click(object sender, EventArgs e)
-        {
-
+            
         }
 
         private void Clear()
@@ -162,7 +161,7 @@ namespace Facturacion
             factura.Fecha = DateTime.Now;
             factura.IDCliente = int.Parse(cbCliente.EditValue.ToString());
             factura.Subtotal = gridData.AsEnumerable().Sum(row => row.Field<decimal>("Sub Total"));
-            factura.IDDescuento = checkDescuento.Checked ? int.Parse(cbDescuento.EditValue.ToString()) : 0;
+            factura.IDDescuento = checkDescuento.Checked && cbDescuento.EditValue != null ? Convert.ToInt32(cbDescuento.EditValue.ToString()) : 0;
             factura.IVA = decimal.Parse(txtIVA.Text);
             factura.Total = (factura.Subtotal - ((factura.IDDescuento / 100) * factura.Subtotal)) + factura.IVA;
             factura.IDEstado = int.Parse(estado.Rows[0]["IDEstado"].ToString());
@@ -216,19 +215,7 @@ namespace Facturacion
 
         }
 
-        
-
-        private decimal CalcularIVA(decimal precioVenta)
-        {
-                return (decimal.Parse(0.15.ToString()) * precioVenta);
-        }
-        private void CalcularTotal()
-        {
-            decimal descuento = (decimal.Parse(cbDescuento.EditValue.ToString()) / 100) * decimal.Parse(txtSubtotal.Text);
-            decimal IVA = decimal.Parse(txtIVA.Text);
-
-            txtTotal.Text = (decimal.Parse(txtSubtotal.Text) - descuento + IVA).ToString(); ;
-        }
+       
 
         private void AgregarProducto()
         {
@@ -327,18 +314,9 @@ namespace Facturacion
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-
             AgregarProducto();
-
-
-
         }
 
-        private void txtCantidad_EditValueChanged(object sender, EventArgs e)
-        {
-
-
-        }
 
         private void AgregarDetalle(KeyEventArgs e)
         {
@@ -363,47 +341,47 @@ namespace Facturacion
         private void txtCantidad_KeyDown(object sender, KeyEventArgs e)
         {
             AgregarDetalle(e);
-        }
-
-
-
-        
+        }     
 
         private void checkDescuento_CheckedChanged(object sender, EventArgs e)
         {
             if (checkDescuento.Checked == true)
             {
                 cbDescuento.Enabled = true;
-               
+                if(fillCBDescuentoIstrue)
+                    FillCbDescuento();
             }
             else
-                cbDescuento.Enabled = false;
-        }
-
-        private void cbDescuento_Properties_CloseUp(object sender, DevExpress.XtraEditors.Controls.CloseUpEventArgs e)
-        {
-
-        }
-
-        private void cbDescuento_Properties_EditValueChanged(object sender, EventArgs e)
-        {
-           
-        }
-
-        private void cbDescuento_EditValueChanged(object sender, EventArgs e)
-        {
-            if (txtSubtotal.Text != "" && txtIVA.Text != "" && checkDescuento.Checked != false)
             {
+                cbDescuento.EditValue = "No Aplica";
+                cbDescuento.Enabled = false;
 
-                CalcularTotal();
-                
             }
 
         }
 
-        private void txtProducto_EditValueChanged(object sender, EventArgs e)
+        private decimal CalcularIVA(decimal precioVenta)
         {
+            return (decimal.Parse(0.15.ToString()) * precioVenta);
+        }
+        private void CalcularTotal()
+        {
+            decimal subTotal = Convert.ToDecimal(txtSubtotal.Text);
+            decimal CodDescuento = checkDescuento.Checked && cbDescuento.EditValue != null ? Convert.ToDecimal(cbDescuento.EditValue.ToString()): 0;
 
+            decimal descuento = (CodDescuento / 100);
+            decimal descuentoTotal = descuento * subTotal;
+            decimal IVA = Convert.ToDecimal(txtIVA.Text);
+            decimal total = subTotal - descuentoTotal + IVA;
+            txtTotal.Text = total.ToString();
+        }  
+
+        private void cbDescuento_CloseUp(object sender, DevExpress.XtraEditors.Controls.CloseUpEventArgs e)
+        {
+            if (gdProductos.DataSource != null)
+            {
+                CalcularTotal();
+            }
         }
     }
 }
