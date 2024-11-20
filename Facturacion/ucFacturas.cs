@@ -129,7 +129,9 @@ namespace Facturacion
         {
             InitializeComponent();
             FillData();
-            
+            cbDescuento.EditValueChanged += cbDescuento_EditValueChanged;
+
+
         }
 
         private void Clear()
@@ -367,16 +369,30 @@ namespace Facturacion
         private void CalcularTotal()
         {
             decimal subTotal = Convert.ToDecimal(txtSubtotal.Text);
-            decimal CodDescuento = checkDescuento.Checked && cbDescuento.EditValue != null ? Convert.ToDecimal(cbDescuento.EditValue.ToString()): 0;
+
+            // Obtiene el descuento actual, manejando nulos
+            decimal CodDescuento = checkDescuento.Checked && cbDescuento.EditValue != null
+                ? Convert.ToDecimal(cbDescuento.EditValue)
+                : 0;
 
             decimal descuento = (CodDescuento / 100);
             decimal descuentoTotal = descuento * subTotal;
             decimal IVA = Convert.ToDecimal(txtIVA.Text);
             decimal total = subTotal - descuentoTotal + IVA;
+
             txtTotal.Text = total.ToString();
-        }  
+        }
+
 
         private void cbDescuento_CloseUp(object sender, DevExpress.XtraEditors.Controls.CloseUpEventArgs e)
+        {
+            if (gdProductos.DataSource != null)
+            {
+                CalcularTotal();
+            }
+        }
+
+        private void cbDescuento_EditValueChanged(object sender, EventArgs e)
         {
             if (gdProductos.DataSource != null)
             {

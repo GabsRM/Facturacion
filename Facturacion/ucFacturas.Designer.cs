@@ -241,6 +241,7 @@ namespace Facturacion
             this.cbDescuento.StyleController = this.layoutControl1;
             this.cbDescuento.TabIndex = 20;
             this.cbDescuento.CloseUp += new DevExpress.XtraEditors.Controls.CloseUpEventHandler(this.cbDescuento_CloseUp);
+            this.cbDescuento.EditValueChanged += new System.EventHandler(this.cbDescuento_EditValueChanged);
             // 
             // txtIVA
             // 

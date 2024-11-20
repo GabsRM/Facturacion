@@ -177,6 +177,7 @@ namespace Facturacion
             ((System.ComponentModel.ISupportInitialize)(this.fluentFormDefaultManager1)).EndInit();
             this.ResumeLayout(false);
 
+
         }
 
         #endregion

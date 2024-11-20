@@ -16,6 +16,7 @@ namespace Facturacion
         {
             InitializeComponent();
             ucFacturas.Instance.ProductosActualizados += ucProductos.Instance.ShowData;
+
         }
 
         private void accordionControlElement2_Click(object sender, EventArgs e)
