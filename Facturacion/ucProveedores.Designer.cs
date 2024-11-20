@@ -31,10 +31,10 @@ namespace Facturacion
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ucProveedores));
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this.BtnNuevo = new DevExpress.XtraEditors.SimpleButton();
             this.btnEliminar = new DevExpress.XtraEditors.SimpleButton();
-            this.btnActualizar = new DevExpress.XtraEditors.SimpleButton();
             this.btnGuardar = new DevExpress.XtraEditors.SimpleButton();
-            this.gridControl1 = new DevExpress.XtraGrid.GridControl();
+            this.GdProveedores = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.txtTelefono = new DevExpress.XtraEditors.TextEdit();
             this.txtDireccion = new DevExpress.XtraEditors.TextEdit();
@@ -47,12 +47,12 @@ namespace Facturacion
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem6 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem8 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem9 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem4 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem5 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GdProveedores)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTelefono.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDireccion.Properties)).BeginInit();
@@ -64,108 +64,108 @@ namespace Facturacion
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
             // 
+            this.layoutControl1.Controls.Add(this.BtnNuevo);
             this.layoutControl1.Controls.Add(this.btnEliminar);
-            this.layoutControl1.Controls.Add(this.btnActualizar);
             this.layoutControl1.Controls.Add(this.btnGuardar);
-            this.layoutControl1.Controls.Add(this.gridControl1);
+            this.layoutControl1.Controls.Add(this.GdProveedores);
             this.layoutControl1.Controls.Add(this.txtTelefono);
             this.layoutControl1.Controls.Add(this.txtDireccion);
             this.layoutControl1.Controls.Add(this.labelControl1);
             this.layoutControl1.Controls.Add(this.txtNombre);
             this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.layoutControl1.Location = new System.Drawing.Point(0, 0);
-            this.layoutControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.layoutControl1.Margin = new System.Windows.Forms.Padding(4);
             this.layoutControl1.Name = "layoutControl1";
             this.layoutControl1.Root = this.Root;
             this.layoutControl1.Size = new System.Drawing.Size(964, 770);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
             // 
+            // BtnNuevo
+            // 
+            this.BtnNuevo.Appearance.Font = new System.Drawing.Font("Tahoma", 14.25F);
+            this.BtnNuevo.Appearance.Options.UseFont = true;
+            this.BtnNuevo.ImageOptions.SvgImage = global::Facturacion.Properties.Resources.newemployee;
+            this.BtnNuevo.Location = new System.Drawing.Point(12, 573);
+            this.BtnNuevo.Name = "BtnNuevo";
+            this.BtnNuevo.Size = new System.Drawing.Size(311, 42);
+            this.BtnNuevo.StyleController = this.layoutControl1;
+            this.BtnNuevo.TabIndex = 13;
+            this.BtnNuevo.Text = "Nuevo";
+            this.BtnNuevo.Click += new System.EventHandler(this.BtnNuevo_Click);
+            // 
             // btnEliminar
             // 
             this.btnEliminar.Appearance.Font = new System.Drawing.Font("Tahoma", 14.25F);
             this.btnEliminar.Appearance.Options.UseFont = true;
-            this.btnEliminar.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnEliminar.ImageOptions.SvgImage")));
-            this.btnEliminar.Location = new System.Drawing.Point(640, 569);
-            this.btnEliminar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnEliminar.ImageOptions.SvgImage = global::Facturacion.Properties.Resources.delete1;
+            this.btnEliminar.Location = new System.Drawing.Point(641, 573);
+            this.btnEliminar.Margin = new System.Windows.Forms.Padding(4);
             this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(306, 42);
+            this.btnEliminar.Size = new System.Drawing.Size(311, 42);
             this.btnEliminar.StyleController = this.layoutControl1;
             this.btnEliminar.TabIndex = 12;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
-            // 
-            // btnActualizar
-            // 
-            this.btnActualizar.Appearance.Font = new System.Drawing.Font("Tahoma", 14.25F);
-            this.btnActualizar.Appearance.Options.UseFont = true;
-            this.btnActualizar.Location = new System.Drawing.Point(330, 569);
-            this.btnActualizar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnActualizar.Name = "btnActualizar";
-            this.btnActualizar.Size = new System.Drawing.Size(304, 42);
-            this.btnActualizar.StyleController = this.layoutControl1;
-            this.btnActualizar.TabIndex = 11;
-            this.btnActualizar.Text = "Actualizar";
-            this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
             // 
             // btnGuardar
             // 
             this.btnGuardar.Appearance.Font = new System.Drawing.Font("Tahoma", 14.25F);
             this.btnGuardar.Appearance.Options.UseFont = true;
             this.btnGuardar.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnGuardar.ImageOptions.SvgImage")));
-            this.btnGuardar.Location = new System.Drawing.Point(18, 569);
-            this.btnGuardar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnGuardar.Location = new System.Drawing.Point(327, 573);
+            this.btnGuardar.Margin = new System.Windows.Forms.Padding(4);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(306, 42);
+            this.btnGuardar.Size = new System.Drawing.Size(310, 42);
             this.btnGuardar.StyleController = this.layoutControl1;
             this.btnGuardar.TabIndex = 10;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
-            // gridControl1
+            // GdProveedores
             // 
-            this.gridControl1.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.gridControl1.Location = new System.Drawing.Point(18, 149);
-            this.gridControl1.MainView = this.gridView1;
-            this.gridControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(928, 414);
-            this.gridControl1.TabIndex = 9;
-            this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.GdProveedores.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(6);
+            this.GdProveedores.Location = new System.Drawing.Point(12, 137);
+            this.GdProveedores.MainView = this.gridView1;
+            this.GdProveedores.Margin = new System.Windows.Forms.Padding(4);
+            this.GdProveedores.Name = "GdProveedores";
+            this.GdProveedores.Size = new System.Drawing.Size(940, 432);
+            this.GdProveedores.TabIndex = 9;
+            this.GdProveedores.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
-            this.gridControl1.Click += new System.EventHandler(this.gridControl1_Click);
+            this.GdProveedores.Click += new System.EventHandler(this.gridControl1_Click);
             // 
             // gridView1
             // 
             this.gridView1.DetailHeight = 512;
             this.gridView1.FixedLineWidth = 3;
-            this.gridView1.GridControl = this.gridControl1;
+            this.gridView1.GridControl = this.GdProveedores;
             this.gridView1.LevelIndent = 0;
             this.gridView1.Name = "gridView1";
             this.gridView1.PreviewIndent = 0;
             // 
             // txtTelefono
             // 
-            this.txtTelefono.Location = new System.Drawing.Point(87, 101);
-            this.txtTelefono.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtTelefono.Location = new System.Drawing.Point(80, 91);
+            this.txtTelefono.Margin = new System.Windows.Forms.Padding(4);
             this.txtTelefono.Name = "txtTelefono";
-            this.txtTelefono.Size = new System.Drawing.Size(391, 42);
+            this.txtTelefono.Size = new System.Drawing.Size(400, 42);
             this.txtTelefono.StyleController = this.layoutControl1;
             this.txtTelefono.TabIndex = 7;
             // 
             // txtDireccion
             // 
-            this.txtDireccion.Location = new System.Drawing.Point(553, 53);
-            this.txtDireccion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtDireccion.Location = new System.Drawing.Point(552, 45);
+            this.txtDireccion.Margin = new System.Windows.Forms.Padding(4);
             this.txtDireccion.Name = "txtDireccion";
-            this.txtDireccion.Size = new System.Drawing.Size(393, 42);
+            this.txtDireccion.Size = new System.Drawing.Size(400, 42);
             this.txtDireccion.StyleController = this.layoutControl1;
             this.txtDireccion.TabIndex = 6;
             // 
@@ -173,8 +173,8 @@ namespace Facturacion
             // 
             this.labelControl1.Appearance.Font = new System.Drawing.Font("Trebuchet MS", 18F, System.Drawing.FontStyle.Bold);
             this.labelControl1.Appearance.Options.UseFont = true;
-            this.labelControl1.Location = new System.Drawing.Point(18, 18);
-            this.labelControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.labelControl1.Location = new System.Drawing.Point(12, 12);
+            this.labelControl1.Margin = new System.Windows.Forms.Padding(4);
             this.labelControl1.Name = "labelControl1";
             this.labelControl1.Size = new System.Drawing.Size(141, 29);
             this.labelControl1.StyleController = this.layoutControl1;
@@ -183,10 +183,10 @@ namespace Facturacion
             // 
             // txtNombre
             // 
-            this.txtNombre.Location = new System.Drawing.Point(87, 53);
-            this.txtNombre.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtNombre.Location = new System.Drawing.Point(80, 45);
+            this.txtNombre.Margin = new System.Windows.Forms.Padding(4);
             this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(391, 42);
+            this.txtNombre.Size = new System.Drawing.Size(400, 42);
             this.txtNombre.StyleController = this.layoutControl1;
             this.txtNombre.TabIndex = 4;
             // 
@@ -201,9 +201,9 @@ namespace Facturacion
             this.layoutControlItem3,
             this.layoutControlItem6,
             this.layoutControlItem7,
-            this.layoutControlItem8,
             this.layoutControlItem9,
-            this.layoutControlItem4});
+            this.layoutControlItem4,
+            this.layoutControlItem5});
             this.Root.Name = "Root";
             this.Root.Size = new System.Drawing.Size(964, 770);
             this.Root.TextVisible = false;
@@ -211,18 +211,18 @@ namespace Facturacion
             // layoutControlItem1
             // 
             this.layoutControlItem1.Control = this.txtNombre;
-            this.layoutControlItem1.Location = new System.Drawing.Point(0, 35);
+            this.layoutControlItem1.Location = new System.Drawing.Point(0, 33);
             this.layoutControlItem1.Name = "layoutControlItem1";
-            this.layoutControlItem1.Size = new System.Drawing.Size(466, 48);
+            this.layoutControlItem1.Size = new System.Drawing.Size(472, 46);
             this.layoutControlItem1.Text = "Nombre";
             this.layoutControlItem1.TextSize = new System.Drawing.Size(65, 19);
             // 
             // emptySpaceItem1
             // 
             this.emptySpaceItem1.AllowHotTrack = false;
-            this.emptySpaceItem1.Location = new System.Drawing.Point(0, 599);
+            this.emptySpaceItem1.Location = new System.Drawing.Point(0, 607);
             this.emptySpaceItem1.Name = "emptySpaceItem1";
-            this.emptySpaceItem1.Size = new System.Drawing.Size(934, 141);
+            this.emptySpaceItem1.Size = new System.Drawing.Size(944, 143);
             this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
             // 
             // layoutControlItem2
@@ -230,75 +230,75 @@ namespace Facturacion
             this.layoutControlItem2.Control = this.labelControl1;
             this.layoutControlItem2.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem2.Name = "layoutControlItem2";
-            this.layoutControlItem2.Size = new System.Drawing.Size(934, 35);
+            this.layoutControlItem2.Size = new System.Drawing.Size(944, 33);
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem2.TextVisible = false;
             // 
             // layoutControlItem3
             // 
             this.layoutControlItem3.Control = this.txtDireccion;
-            this.layoutControlItem3.Location = new System.Drawing.Point(466, 35);
+            this.layoutControlItem3.Location = new System.Drawing.Point(472, 33);
             this.layoutControlItem3.Name = "layoutControlItem3";
-            this.layoutControlItem3.Size = new System.Drawing.Size(468, 96);
+            this.layoutControlItem3.Size = new System.Drawing.Size(472, 92);
             this.layoutControlItem3.Text = "Dirección";
             this.layoutControlItem3.TextSize = new System.Drawing.Size(65, 19);
             // 
             // layoutControlItem6
             // 
-            this.layoutControlItem6.Control = this.gridControl1;
-            this.layoutControlItem6.Location = new System.Drawing.Point(0, 131);
+            this.layoutControlItem6.Control = this.GdProveedores;
+            this.layoutControlItem6.Location = new System.Drawing.Point(0, 125);
             this.layoutControlItem6.Name = "layoutControlItem6";
-            this.layoutControlItem6.Size = new System.Drawing.Size(934, 420);
+            this.layoutControlItem6.Size = new System.Drawing.Size(944, 436);
             this.layoutControlItem6.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem6.TextVisible = false;
             // 
             // layoutControlItem7
             // 
             this.layoutControlItem7.Control = this.btnGuardar;
-            this.layoutControlItem7.Location = new System.Drawing.Point(0, 551);
+            this.layoutControlItem7.Location = new System.Drawing.Point(315, 561);
             this.layoutControlItem7.Name = "layoutControlItem7";
-            this.layoutControlItem7.Size = new System.Drawing.Size(312, 48);
+            this.layoutControlItem7.Size = new System.Drawing.Size(314, 46);
             this.layoutControlItem7.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem7.TextVisible = false;
-            // 
-            // layoutControlItem8
-            // 
-            this.layoutControlItem8.Control = this.btnActualizar;
-            this.layoutControlItem8.Location = new System.Drawing.Point(312, 551);
-            this.layoutControlItem8.Name = "layoutControlItem8";
-            this.layoutControlItem8.Size = new System.Drawing.Size(310, 48);
-            this.layoutControlItem8.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem8.TextVisible = false;
             // 
             // layoutControlItem9
             // 
             this.layoutControlItem9.Control = this.btnEliminar;
-            this.layoutControlItem9.Location = new System.Drawing.Point(622, 551);
+            this.layoutControlItem9.Location = new System.Drawing.Point(629, 561);
             this.layoutControlItem9.Name = "layoutControlItem9";
-            this.layoutControlItem9.Size = new System.Drawing.Size(312, 48);
+            this.layoutControlItem9.Size = new System.Drawing.Size(315, 46);
             this.layoutControlItem9.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem9.TextVisible = false;
             // 
             // layoutControlItem4
             // 
             this.layoutControlItem4.Control = this.txtTelefono;
-            this.layoutControlItem4.Location = new System.Drawing.Point(0, 83);
+            this.layoutControlItem4.Location = new System.Drawing.Point(0, 79);
             this.layoutControlItem4.Name = "layoutControlItem4";
-            this.layoutControlItem4.Size = new System.Drawing.Size(466, 48);
+            this.layoutControlItem4.Size = new System.Drawing.Size(472, 46);
             this.layoutControlItem4.Text = "Teléfono";
             this.layoutControlItem4.TextSize = new System.Drawing.Size(65, 19);
+            // 
+            // layoutControlItem5
+            // 
+            this.layoutControlItem5.Control = this.BtnNuevo;
+            this.layoutControlItem5.Location = new System.Drawing.Point(0, 561);
+            this.layoutControlItem5.Name = "layoutControlItem5";
+            this.layoutControlItem5.Size = new System.Drawing.Size(315, 46);
+            this.layoutControlItem5.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem5.TextVisible = false;
             // 
             // ucProveedores
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.layoutControl1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ucProveedores";
             this.Size = new System.Drawing.Size(964, 770);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GdProveedores)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTelefono.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDireccion.Properties)).EndInit();
@@ -310,9 +310,9 @@ namespace Facturacion
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -324,7 +324,7 @@ namespace Facturacion
         private DevExpress.XtraLayout.LayoutControlGroup Root;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
         private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem1;
-        private DevExpress.XtraGrid.GridControl gridControl1;
+        private DevExpress.XtraGrid.GridControl GdProveedores;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
         private DevExpress.XtraEditors.TextEdit txtTelefono;
         private DevExpress.XtraEditors.TextEdit txtDireccion;
@@ -334,10 +334,10 @@ namespace Facturacion
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem4;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem6;
         private DevExpress.XtraEditors.SimpleButton btnEliminar;
-        private DevExpress.XtraEditors.SimpleButton btnActualizar;
         private DevExpress.XtraEditors.SimpleButton btnGuardar;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem7;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem8;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem9;
+        private DevExpress.XtraEditors.SimpleButton BtnNuevo;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem5;
     }
 }

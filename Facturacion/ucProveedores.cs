@@ -18,6 +18,7 @@ namespace Facturacion
         private ProveedorDAL proveedoresDAL = new ProveedorDAL();
         private clsProveedor proveedor = new clsProveedor();
 
+        private bool btnNuevoIsClicked = true;
 
         private static ucProveedores _instance;
         public static ucProveedores Instance
@@ -33,7 +34,7 @@ namespace Facturacion
 
         private void ShowData()
         {
-            gridControl1.DataSource = proveedoresDAL.GetProveedores();
+            GdProveedores.DataSource = proveedoresDAL.GetProveedores();
         }
 
         private int selectedRow()
@@ -51,27 +52,32 @@ namespace Facturacion
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            proveedor.Nombre = txtNombre.Text;
-            proveedor.Direccion = txtDireccion.Text;
-            proveedor.Telefono = txtTelefono.Text;
+            if(!btnNuevoIsClicked)
+            {
+                proveedor.Nombre = txtNombre.Text;
+                proveedor.Direccion = txtDireccion.Text;
+                proveedor.Telefono = txtTelefono.Text;
 
-            if (proveedoresDAL.InsertProveedor(proveedor))
-                MessageBox.Show("Se guardó el proveedor!");
+                if (proveedoresDAL.InsertProveedor(proveedor))
+                    MessageBox.Show("Se guardó el proveedor!");
+            }
+
+            else
+            {
+                proveedor.IDProveedor = selectedRow();
+                proveedor.Nombre = txtNombre.Text;
+                proveedor.Direccion = txtDireccion.Text;
+                proveedor.Telefono = txtTelefono.Text;
+
+                if (proveedoresDAL.UpdateProveedor(proveedor))
+                    MessageBox.Show("Se actualizó el proveedor!");
+            }
+
             ShowData();
+            ResetNewButton();
+
         }
 
-        private void btnActualizar_Click(object sender, EventArgs e)
-        {
-            proveedor.IDProveedor = selectedRow();
-            proveedor.Nombre = txtNombre.Text;
-            proveedor.Direccion = txtDireccion.Text;
-            proveedor.Telefono = txtTelefono.Text;
-
-            if (proveedoresDAL.UpdateProveedor(proveedor))
-                MessageBox.Show("Se actualizó el proveedor!");
-            ShowData();
-
-        }
 
         private void gridControl1_Click(object sender, EventArgs e)
         {
@@ -89,6 +95,29 @@ namespace Facturacion
             if (proveedoresDAL.DeleteProveedor(selectedRow()))
                 MessageBox.Show("Se eliminó el proveedor!");
             ShowData();
+        }
+
+        private void BtnNuevo_Click(object sender, EventArgs e)
+        {
+            if (btnNuevoIsClicked)
+            {
+                btnNuevoIsClicked = false;
+                GdProveedores.Enabled = false;
+                BtnNuevo.Text = "Cancelar";
+                BtnNuevo.ImageOptions.SvgImage = Properties.Resources.cancel;
+            }
+            else
+            {
+                ResetNewButton();
+            }
+        }
+
+        private void ResetNewButton()
+        {
+            btnNuevoIsClicked = true;
+            GdProveedores.Enabled = true;
+            BtnNuevo.Text = "Nuevo";
+            BtnNuevo.ImageOptions.SvgImage = Properties.Resources.newproduct;
         }
     }
 }

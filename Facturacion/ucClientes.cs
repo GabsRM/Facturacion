@@ -18,6 +18,7 @@ namespace Facturacion
         private ClienteDAL clienteDAL= new ClienteDAL();
         private clsCliente cliente = new clsCliente();
 
+        bool btnNuevoIsClicked = true;
 
         private static ucClientes _instance;
         public static ucClientes Instance
@@ -32,7 +33,7 @@ namespace Facturacion
         }
         private void ShowData()
         {
-            gridControl1.DataSource = clienteDAL.GetClientes();
+            gdClientes.DataSource = clienteDAL.GetClientes();
         }
 
         private void fillData()
@@ -80,30 +81,31 @@ namespace Facturacion
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            cliente.Nombre = txtNombre.Text;
-            cliente.Apellido = txtApellido.Text;
-            cliente.IDConvenio = int.Parse(cbTipoCliente.EditValue.ToString());
-          
-            if (clienteDAL.InsertCliente(cliente))
-                MessageBox.Show("Se guardó el cliente!");
+
+            if(!btnNuevoIsClicked)
+            {
+
+                cliente.Nombre = txtNombre.Text;
+                cliente.Apellido = txtApellido.Text;
+                cliente.IDConvenio = int.Parse(cbTipoCliente.EditValue.ToString());
+
+                if (clienteDAL.InsertCliente(cliente))
+                    MessageBox.Show("Se guardó el cliente!");
+
+            }
+            else
+            {
+                cliente.IDCliente = selectedRow();
+                cliente.Nombre = txtNombre.Text;
+                cliente.Apellido = txtApellido.Text;
+                cliente.IDConvenio = int.Parse(cbTipoCliente.EditValue.ToString());
+
+                if (clienteDAL.UpdateCliente(cliente))
+                    MessageBox.Show("Se actualizó el cliente!");
+            }
             ShowData();
-
-
+            ResetNewButton();
         }
-
-        private void btnActualizar_Click(object sender, EventArgs e)
-        {
-            cliente.IDCliente = selectedRow();
-            cliente.Nombre = txtNombre.Text;
-            cliente.Apellido = txtApellido.Text;
-            cliente.IDConvenio = int.Parse(cbTipoCliente.EditValue.ToString());
-
-            if (clienteDAL.UpdateCliente(cliente))
-                MessageBox.Show("Se actualizó el cliente!");
-            ShowData();
-        }
-
-       
 
         private void btnEliminar_Click_1(object sender, EventArgs e)
         {
@@ -111,6 +113,29 @@ namespace Facturacion
             if (clienteDAL.DeleteCliente(selectedRow()))
                 MessageBox.Show("Se eliminó el cliente!");
             ShowData();
+        }
+
+        private void btnNuevo_Click(object sender, EventArgs e)
+        {
+            if (btnNuevoIsClicked)
+            {
+                btnNuevoIsClicked = false;
+                gdClientes.Enabled = false;
+                btnNuevo.Text = "Cancelar";
+                btnNuevo.ImageOptions.SvgImage = Properties.Resources.cancel;
+            }
+            else
+            {
+                ResetNewButton();
+            }
+        }
+
+        private void ResetNewButton()
+        {
+            btnNuevoIsClicked = true;
+            gdClientes.Enabled = true;
+            btnNuevo.Text = "Nuevo";
+            btnNuevo.ImageOptions.SvgImage = Properties.Resources.newproduct;
         }
     }
 }
